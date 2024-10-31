@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, toRef } from 'vue'
+import { ref } from 'vue'
 import { useCartStore } from '@/stores/CartStore'
 
 const props = defineProps({
@@ -12,8 +12,9 @@ const props = defineProps({
         required: true
     },
 })
-let isAdded = ref(false)
-let productCount = ref(0);
+
+const isAdded = ref(false)
+const productCount = ref(0);
 const cartStore = useCartStore()
 
 const addToCart = (() => {

@@ -1,8 +1,10 @@
 <script lang="ts" setup>
     import ProductCard from '@/components/ProductCard.vue'
     import Header from '@/components/Header.vue'
+    import Drawer from '@/components/Drawer.vue'
 </script>
 <template>
+    <drawer/>
     <div class="bg-white w-auto m-auto h-screen  rounded-xl shadow-xl mt-5">
         <Header/>
         <div class="p-10 flex flex-row flex-wrap gap-5">
