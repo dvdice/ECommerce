@@ -1,21 +1,39 @@
 <script lang="ts" setup>
+    import {onMounted, ref} from "vue";
+    import axios from "axios";
+
     import ProductCard from '@/components/ProductCard.vue'
     import Header from '@/components/Header.vue'
     import Drawer from '@/components/Drawer.vue'
+
+    const items = ref([])
+
+    onMounted(async () => {
+        try {
+            const {data} = await axios.get('https://fakestoreapi.com/products')
+            items.value = data
+        }catch (err){
+            console.log(err)
+        }
+    })
+
+    const usd2Rub = ((usdCost: number) => {
+        return usdCost * 100;
+    })
 </script>
 <template>
-    <drawer/>
-    <div class="bg-white w-auto m-auto h-screen  rounded-xl shadow-xl mt-5">
+<!--    <drawer/>-->
+    <div class="bg-white w-auto m-auto h-full rounded-xl shadow-xl mt-5">
         <Header/>
         <div class="p-10 flex flex-row flex-wrap gap-5">
-            <product-card price="150" product-name="ХУЙ"></product-card>
-            <product-card price="150" product-name="ХУЙ"></product-card>
-            <product-card price="150" product-name="ХУЙ"></product-card>
-            <product-card price="150" product-name="ХУЙ"></product-card>
-            <product-card price="150" product-name="ХУЙ"></product-card>
-            <product-card price="150" product-name="ХУЙ"></product-card>
-            <product-card price="150" product-name="ХУЙ"></product-card>
-            <product-card price="150" product-name="ХУЙ"></product-card>
+            <product-card
+                v-for="item in items"
+                :key="item.id"
+                :price="usd2Rub(item.price)"
+                :product-name="item.title"
+                :image="item.image"
+            ></product-card>
+            <product-card></product-card>
         </div>
     </div>
 </template>
