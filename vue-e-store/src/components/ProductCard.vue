@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useCartStore } from '@/stores/CartStore'
 
-const props = defineProps({
+defineProps({
     productName: {
         type: String,
         default: ''
@@ -11,6 +11,10 @@ const props = defineProps({
         type: Number,
         required: true
     },
+    image: {
+        type: String,
+        default: 'http://dummyimage.com/200'
+    }
 })
 
 const isAdded = ref(false)
@@ -28,8 +32,8 @@ const addToCart = (() => {
 <template>
     <div class="ml-4 w-56 rounded-xl relative hover:shadow-xl transition hover:-translate-y-1 flex flex-col bg-gray-50">
         <img class="ml-2 absolute top-1 right-1" src="/like-1.svg">
-        <img class="rounded-xl" src="http://dummyimage.com/200">
-        <div class="flex flex-col">
+        <img class="rounded-xl h-48 w-48 self-center" :src="image">
+        <div class="flex flex-col mt-1">
             <div class="ml-2 text-emerald-500">{{ price }} ₽</div>
             <div class="ml-2">{{ productName }}</div>
         </div>
