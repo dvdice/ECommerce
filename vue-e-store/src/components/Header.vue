@@ -1,7 +1,3 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
     <header class="flex justify-between border-b px-5 py-5 mb-10">
         <div class="flex items-center">
@@ -26,6 +22,10 @@
         </ul>
     </header>
 </template>
+
+<script setup lang="ts">
+
+</script>
 
 <style scoped>
 

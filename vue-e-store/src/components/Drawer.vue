@@ -1,8 +1,3 @@
-<script setup lang="ts">
-
-import CartItem from '@/components/CartItem.vue'
-</script>
-
 <template>
     <div class="fixed top-0 left-0 h-full w-full bg-black z-10 opacity-70"></div>
 
@@ -35,6 +30,11 @@ import CartItem from '@/components/CartItem.vue'
         </div>
     </div>
 </template>
+
+<script setup lang="ts">
+
+import CartItem from '@/components/CartItem.vue'
+</script>
 
 <style scoped>
 
