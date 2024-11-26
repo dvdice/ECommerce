@@ -17,8 +17,7 @@
                 </div>
             </div>
 
-
-            <div class="p-10 flex flex-row flex-wrap gap-5">
+            <div class="py-10 flex flex-row flex-wrap gap-10 justify-center">
                 <product-card
                     v-for="item in items"
                     :key="item.id"
