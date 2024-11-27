@@ -23,25 +23,26 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-import { type Product, useProductStore } from '@/stores/ProductStore'
+import { useProductStore } from '@/stores/ProductStore'
+import type { Product } from '@/models/Product'
 
 const props = defineProps({
     product: {
-        type: Object,
+        type: Object as () => Product,
         required: true
     }
 })
 
 const productStore = useProductStore();
-const isAddedToFavourites = ref(false);
+const isAddedToFavourites = ref<boolean>(false);
 const cartString = localStorage.getItem('cart') || '[]';
-const cart = ref<CartItem[]>(JSON.parse(cartString));
+const cart = ref<Product[]>(JSON.parse(cartString));
 const currentProduct = productStore.getCurrentProduct(props.product as Product);
-const index = cart.value.findIndex(item => item.id === currentProduct?.id)
-const productCount = ref(cart.value[index]?.count || 0);
-const isAddedToCart = ref(productCount.value > 0);
+const index = cart.value?.findIndex(item => item.id === currentProduct?.id)
+const productCount = ref<number>(cart.value[index]?.count || 0);
+const isAddedToCart = ref<boolean>(productCount.value > 0);
 
-const addToCart = (product: object) => {
+const addToCart = (product: Product) => {
     if (isAddedToCart.value) {
         productCount.value++;
 
@@ -68,12 +69,7 @@ const toggleFavourites = (() => {
 
 const usd2Rub = ((usdCost: number) => {
     return usdCost * 100;
-})
-
-interface CartItem {
-    id: number;
-    count: number;
-};
+});
 
 </script>
 

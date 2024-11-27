@@ -1,10 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-export interface Product {
-    id: number;
-    price: number;
-    count: number;
-};
+import type { Product } from '@/models/Product'
+
 export const useProductStore = defineStore('productStore', () => {
     const productList = ref<Product[]>([]);
     function getCurrentProduct(obj: Product) {
