@@ -1,5 +1,5 @@
 <template>
-    <select class="py-2 px-3 border rounded-md">
+    <select class="py-2 px-3 border rounded-md h-9">
         <option v-for="(option, index) in optionsList" :key="index">{{ option }}</option>
     </select>
 </template>
