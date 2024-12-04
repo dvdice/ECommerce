@@ -39,7 +39,7 @@ const cartString = localStorage.getItem('cart') || '[]';
 const cart = ref<Product[]>(JSON.parse(cartString));
 const currentProduct = productStore.getCurrentProduct(props.product as Product);
 const index = cart.value?.findIndex(item => item.id === currentProduct?.id)
-const productCount = ref<number>(cart.value[index]?.count || 0);
+const productCount = ref<number>(cart?._value[index]?.count || 0);
 const isAddedToCart = ref<boolean>(productCount.value > 0);
 
 const addToCart = (product: Product) => {
