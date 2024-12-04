@@ -26,6 +26,8 @@ import { ref } from 'vue'
 import { useProductStore } from '@/stores/ProductStore'
 import type { Product } from '@/models/Product'
 
+const emit = defineEmits(['addedToCart'])
+
 const props = defineProps({
     product: {
         type: Object as () => Product,
@@ -38,27 +40,31 @@ const isAddedToFavourites = ref<boolean>(false);
 const cartString = localStorage.getItem('cart') || '[]';
 const cart = ref<Product[]>(JSON.parse(cartString));
 const currentProduct = productStore.getCurrentProduct(props.product as Product);
-const index = cart.value?.findIndex(item => item.id === currentProduct?.id)
+let index = cart._value?.findIndex(item => item.id === currentProduct?.id)
 const productCount = ref<number>(cart?._value[index]?.count || 0);
+const amountItemsInCart = ref(0);
 const isAddedToCart = ref<boolean>(productCount.value > 0);
 
 const addToCart = (product: Product) => {
     if (isAddedToCart.value) {
         productCount.value++;
+        amountItemsInCart.value++
 
-        cart.value[index].count = productCount.value
+        index = cart._value?.findIndex(item => item.id === currentProduct?.id)
+        cart._value[index].count = productCount.value
 
         localStorage.setItem('cart', JSON.stringify(cart));
+        emit('addedToCart');
     }else{
         isAddedToCart.value = true;
         productCount.value++;
+        amountItemsInCart.value++
 
-        const cartString = localStorage.getItem('cart') || '[]';
-        const cart = JSON.parse(cartString);
-
-        cart.push({ ...product, count: productCount.value });
+        cart._value.push({ ...product, count: productCount.value });
 
         localStorage.setItem('cart', JSON.stringify(cart));
+
+        emit('addedToCart');
     }
 
 };

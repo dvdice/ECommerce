@@ -7,13 +7,20 @@
             </div>
         </div>
 
-        <header-link-element :header-link-elements="headerLinkElements"></header-link-element>
+        <header-link-element :header-link-elements="headerLinkElements" :total-items-in-cart="totalItemsInCart"></header-link-element>
     </header>
 </template>
 
 <script setup lang="ts">
 
 import HeaderLinkElement from '@/components/HeaderLinkElement.vue'
+
+defineProps({
+    totalItemsInCart: {
+        type: Number,
+        default: 0
+    }
+})
 
 const headerLinkElements = [
     {title: 'Корзина', imgSrc: '/cart.svg'},
