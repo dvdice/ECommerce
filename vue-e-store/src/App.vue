@@ -1,7 +1,10 @@
 <template>
-    <!--    <drawer/>-->
+    <drawer
+        v-if="cartToggled"
+        @cart-clicked="cartToggled = !cartToggled"
+    ></drawer>
     <div class="bg-white w-auto m-auto h-full rounded-xl shadow-xl mt-5">
-        <Header :total-items-in-cart="totalItemsInCart"/>
+        <Header :total-items-in-cart="totalItemsInCart" @cart-clicked="cartToggled = !cartToggled"/>
 
         <div class="p-5">
             <div class="flex justify-between items-center">
@@ -43,7 +46,7 @@ import type { Product } from '@/models/Product'
 const productStore = useProductStore()
 const cartString = localStorage.getItem('cart') || '[]';
 const cart = ref<Product[]>(JSON.parse(cartString))
-
+const cartToggled = ref<boolean>(false)
 
 onMounted(async () => {
     try {
@@ -57,7 +60,7 @@ onMounted(async () => {
 const getTotalItemsInCart = (cart: Product[]) => {
     return cart.reduce((count, item) => count + (item.count || 1), 0);
 };
-const totalItemsInCart = ref<number>(getTotalItemsInCart(cart?._value) as number);
+const totalItemsInCart = ref<number>(getTotalItemsInCart(cart?.value) as number);
 
 </script>
 

@@ -53,7 +53,7 @@ const addToCart = (product: Product) => {
         index = cart._value?.findIndex(item => item.id === currentProduct?.id)
         cart._value[index].count = productCount.value
 
-        localStorage.setItem('cart', JSON.stringify(cart));
+        localStorage.setItem('cart', JSON.stringify(cart.value));
         emit('addedToCart');
     }else{
         isAddedToCart.value = true;
@@ -62,7 +62,7 @@ const addToCart = (product: Product) => {
 
         cart._value.push({ ...product, count: productCount.value });
 
-        localStorage.setItem('cart', JSON.stringify(cart));
+        localStorage.setItem('cart', JSON.stringify(cart.value));
 
         emit('addedToCart');
     }

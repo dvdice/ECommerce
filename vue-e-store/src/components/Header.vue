@@ -7,7 +7,7 @@
             </div>
         </div>
 
-        <header-link-element :header-link-elements="headerLinkElements" :total-items-in-cart="totalItemsInCart"></header-link-element>
+        <header-link-element :header-link-elements="headerLinkElements" :total-items-in-cart="totalItemsInCart" @cart-clicked="cartClicked"></header-link-element>
     </header>
 </template>
 
@@ -22,11 +22,16 @@ defineProps({
     }
 })
 
+const emit = defineEmits(['cartClicked'])
+
 const headerLinkElements = [
     {title: 'Корзина', imgSrc: '/cart.svg'},
     {title: 'Закладки', imgSrc: '/heart.svg'},
     {title: 'Профиль', imgSrc: '/profile.svg'}
 ]
+const cartClicked = () => {
+    emit('cartClicked')
+}
 </script>
 
 <style scoped>
