@@ -22,7 +22,7 @@
             <div class="flex">
                 <span>Итого:</span>
                 <div class="flex-1"></div>
-                <b>12990 ₽</b>
+                <b>{{ usd2Rub(totalSum) }} ₽</b>
             </div>
             <div class="flex">
                 <span>Доставка:</span>
@@ -36,9 +36,10 @@
 
 <script setup lang="ts">
 
-import CartItem from '@/components/CartItem.vue'
-import { ref } from 'vue'
-import type { Product } from '@/models/Product'
+import CartItem from '@/components/CartItem.vue';
+import { onMounted, ref } from 'vue';
+import type { Product } from '@/models/Product';
+import { usd2Rub } from '@/components/ProductCard.vue'
 
 defineProps({
     isOpen: {
@@ -51,6 +52,16 @@ const emit = defineEmits(['cartClicked'])
 
 const cartString = localStorage.getItem('cart') || '[]';
 const cart = ref<Product[]>(JSON.parse(cartString));
+const totalSum = ref<number>(0);
+
+const countTotalSum = (() => {
+    debugger
+    totalSum.value = cart.value.reduce((sum, currentValue) => sum + currentValue.price, 0);
+});
+
+onMounted(() => {
+    countTotalSum();
+});
 
 </script>
 

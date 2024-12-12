@@ -6,7 +6,7 @@
             <div class="flex flex-col ml-5">
                 <p class="break-all">{{ product.title }}</p>
                 <div class="flex justify-between">
-                    <b>{{ product.price }} ₽</b>
+                    <b>{{ usd2Rub(product.price) }} ₽</b>
                     <input type="number" :value="amount" min="1" max="999">
                     <img class="opacity-50 hover:opacity-100 transition" src="/close.svg">
                 </div>
@@ -17,6 +17,7 @@
 
 <script setup lang="ts">
 import type { Product } from '@/models/Product'
+import { usd2Rub } from '@/components/ProductCard.vue'
 
 defineProps({
     product: {

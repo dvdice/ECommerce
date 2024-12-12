@@ -73,12 +73,12 @@ const toggleFavourites = (() => {
     isAddedToFavourites.value = !isAddedToFavourites.value
 });
 
-const usd2Rub = ((usdCost: number) => {
+</script>
+<script lang="ts">
+export const usd2Rub = ((usdCost: number) => {
     return usdCost * 100;
 });
-
 </script>
-
 
 
 <style scoped>
