@@ -15,14 +15,14 @@
 
                     <div class="relative pr-5">
                         <img class="absolute left-3 top-2" src="/search.svg" alt="">
-                        <input class="border border-gray-300 rounded-md py-1 pl-10 pr-4 h-9" placeholder="Поиск..." />
+                        <input v-model="searchValue" class="border border-gray-300 rounded-md py-1 pl-10 pr-4 h-9" placeholder="Поиск..." @input="searchChanged(searchValue)" />
                     </div>
                 </div>
             </div>
 
             <div class="py-10 flex flex-row flex-wrap gap-10 justify-center">
                 <product-card
-                    v-for="item in productStore.productList"
+                    v-for="item in productList"
                     :key="item.id"
                     :product="item"
                     @added-to-cart="totalItemsInCart++"
@@ -44,14 +44,17 @@ import { useProductStore } from '@/stores/ProductStore'
 import type { Product } from '@/models/Product'
 
 const productStore = useProductStore()
+const productList = ref<Product[]>([])
 const cartString = localStorage.getItem('cart') || '[]';
 const cart = ref<Product[]>(JSON.parse(cartString))
 const cartToggled = ref<boolean>(false)
+const searchValue = ref<string>('')
 
 onMounted(async () => {
     try {
         const { data } = await axios.get('https://api.escuelajs.co/api/v1/products')
         productStore.productList = data
+        productList.value = productStore.productList
     } catch (err) {
         console.log(err)
     }
@@ -60,7 +63,12 @@ onMounted(async () => {
 const getTotalItemsInCart = (cart: Product[]) => {
     return cart.reduce((count, item) => count + (item.count || 1), 0);
 };
+
 const totalItemsInCart = ref<number>(getTotalItemsInCart(cart?.value) as number);
+
+const searchChanged = (searchStr: string) => {
+    productList.value = productStore.productList.filter(item => item.title.toLowerCase().includes(searchStr));
+}
 
 </script>
 
