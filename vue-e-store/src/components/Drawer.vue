@@ -40,7 +40,7 @@
 <script setup lang="ts">
 
 import CartItem from '@/components/CartItem.vue';
-import { computed, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import type { Product } from '@/models/Product';
 import { usd2Rub } from '@/components/ProductCard.vue'
 
@@ -54,7 +54,7 @@ defineProps({
 const emit = defineEmits(['cartClicked'])
 
 let cartString = localStorage.getItem('cart') || '[]';
-let cart = ref<Product[]>(JSON.parse(cartString));
+const cart = ref<Product[]>(JSON.parse(cartString));
 
 
 const countTotalSum = computed(() => {
@@ -67,12 +67,10 @@ const deleteItemFromCart = (id: number) => {
 }
 const cartChanged = () => {
     cartString = localStorage.getItem('cart') || '[]';
-    cart = ref<Product[]>(JSON.parse(cartString));
+    // Преобразуем каждый элемент в реактивный объект
+    const parsedData = JSON.parse(cartString) as Product[];
+    cart.value = parsedData.map(item => reactive(item));
 }
-/*
-onMounted(() => {
-    countTotalSum();
-});*/
 
 </script>
 
