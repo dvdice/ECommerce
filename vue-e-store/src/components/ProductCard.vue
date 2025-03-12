@@ -40,8 +40,8 @@ const isAddedToFavourites = ref<boolean>(false);
 const cartString = localStorage.getItem('cart') || '[]';
 const cart = ref<Product[]>(JSON.parse(cartString));
 const currentProduct = productStore.getCurrentProduct(props.product as Product);
-let index = cart._value?.findIndex(item => item.id === currentProduct?.id)
-const productCount = ref<number>(cart?._value[index]?.count || 0);
+let index = cart.value?.findIndex(item => item.id === currentProduct?.id)
+const productCount = ref<number>(cart?.value[index]?.count || 0);
 const amountItemsInCart = ref(0);
 const isAddedToCart = ref<boolean>(productCount.value > 0);
 
@@ -50,8 +50,8 @@ const addToCart = (product: Product) => {
         productCount.value++;
         amountItemsInCart.value++
 
-        index = cart._value?.findIndex(item => item.id === currentProduct?.id)
-        cart._value[index].count = productCount.value
+        index = cart.value?.findIndex(item => item.id === currentProduct?.id)
+        cart.value[index].count = productCount.value
 
         localStorage.setItem('cart', JSON.stringify(cart.value));
         emit('addedToCart');
@@ -60,7 +60,7 @@ const addToCart = (product: Product) => {
         productCount.value++;
         amountItemsInCart.value++
 
-        cart._value.push({ ...product, count: productCount.value });
+        cart.value.push({ ...product, count: productCount.value });
 
         localStorage.setItem('cart', JSON.stringify(cart.value));
 

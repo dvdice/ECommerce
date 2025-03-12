@@ -17,13 +17,15 @@
             :key="item.id"
             :product="item"
             :amount="item.count"
+            @delete-item="deleteItemFromCart"
+            @cart-changed="cartChanged"
         ></cart-item>
 
         <div class="mt-2">
             <div class="flex">
                 <span>Итого:</span>
                 <div class="flex-1"></div>
-                <b>{{ usd2Rub(totalSum) }} ₽</b>
+                <b>{{ usd2Rub(countTotalSum) }} ₽</b>
             </div>
             <div class="flex">
                 <span>Доставка:</span>
@@ -38,7 +40,7 @@
 <script setup lang="ts">
 
 import CartItem from '@/components/CartItem.vue';
-import { onMounted, ref } from 'vue';
+import { computed, ref } from 'vue'
 import type { Product } from '@/models/Product';
 import { usd2Rub } from '@/components/ProductCard.vue'
 
@@ -51,18 +53,26 @@ defineProps({
 
 const emit = defineEmits(['cartClicked'])
 
-const cartString = localStorage.getItem('cart') || '[]';
-const cart = ref<Product[]>(JSON.parse(cartString));
-const totalSum = ref<number>(0);
+let cartString = localStorage.getItem('cart') || '[]';
+let cart = ref<Product[]>(JSON.parse(cartString));
 
-const countTotalSum = (() => {
-    debugger
-    totalSum.value = cart.value.reduce((sum, currentValue) => sum + currentValue.price, 0);
+
+const countTotalSum = computed(() => {
+    return cart.value.reduce((sum, currentValue) => sum + (currentValue.price * currentValue.count), 0);
 });
 
+const deleteItemFromCart = (id: number) => {
+    const index = cart.value.findIndex(item => item.id == id)
+    cart.value.splice(index, 1)
+}
+const cartChanged = () => {
+    cartString = localStorage.getItem('cart') || '[]';
+    cart = ref<Product[]>(JSON.parse(cartString));
+}
+/*
 onMounted(() => {
     countTotalSum();
-});
+});*/
 
 </script>
 

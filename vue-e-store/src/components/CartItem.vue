@@ -6,9 +6,9 @@
             <div class="flex flex-col ml-5">
                 <p class="break-all">{{ product.title }}</p>
                 <div class="flex justify-between">
-                    <b>{{ usd2Rub(product.price) }} ₽</b>
-                    <input type="number" :value="amount" min="1" max="999">
-                    <img class="opacity-50 hover:opacity-100 transition" src="/close.svg">
+                    <b>{{ usd2Rub(product.price) * itemAmount}} ₽</b>
+                    <input class="border pl-2" type="number" v-model="itemAmount" min="1" max="999" @change="changeCountInCart(product.id)">
+                    <img class="opacity-50 hover:opacity-100 transition" src="/close.svg" @click="deleteItem(product.id)"/>
                 </div>
             </div>
         </div>
@@ -18,8 +18,9 @@
 <script setup lang="ts">
 import type { Product } from '@/models/Product'
 import { usd2Rub } from '@/components/ProductCard.vue'
+import { ref } from 'vue'
 
-defineProps({
+const props = defineProps({
     product: {
         type: Object as () => Product,
         required: true
@@ -29,6 +30,23 @@ defineProps({
         required: true
     }
 })
+const emit = defineEmits(['cartChanged'])
+
+const itemAmount = ref<number>(props.amount);
+const cartString = localStorage.getItem('cart') || '[]';
+const cart = ref<Product[]>(JSON.parse(cartString));
+
+const deleteItem = (id: number) => {
+    const index = cart.value.findIndex(item => item.id == id)
+    cart.value.splice(index, 1);
+    localStorage.setItem('cart', JSON.stringify(cart.value));
+    emit('cartChanged')
+}
+const changeCountInCart = (id: number) => {
+    const index = cart.value.findIndex(item => item.id == id)
+    cart.value[index].count = itemAmount.value;
+    localStorage.setItem('cart', JSON.stringify(cart.value));
+}
 </script>
 
 
