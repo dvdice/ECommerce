@@ -11,29 +11,40 @@
             </svg>
             <h2 class="text-2xl font-bold">Корзина</h2>
         </div>
+        <template v-if="cart.length !== 0">
+            <p>{{ cart.length }}</p>
+            <cart-item
+                v-for="item in cart"
+                :key="item.id"
+                :product="item"
+                :amount="item.count"
+                @delete-item="deleteItemFromCart"
+                @cart-changed="cartChanged"
+            ></cart-item>
 
-        <cart-item
-            v-for="item in cart"
-            :key="item.id"
-            :product="item"
-            :amount="item.count"
-            @delete-item="deleteItemFromCart"
-            @cart-changed="cartChanged"
-        ></cart-item>
-
-        <div class="mt-2">
-            <div class="flex">
-                <span>Итого:</span>
-                <div class="flex-1"></div>
-                <b>{{ usd2Rub(countTotalSum) }} ₽</b>
+            <div class="mt-2" v-if="cart.length < 2">
+                <div class="flex">
+                    <span>Итого:</span>
+                    <div class="flex-1"></div>
+                    <b>{{ usd2Rub(countTotalSum) }} ₽</b>
+                </div>
+                <div class="flex">
+                    <span>Доставка:</span>
+                    <div class="flex-1"></div>
+                    <b>350 ₽</b>
+                </div>
+                <button class="rounded-xl w-full mt-2 p-3 bg-lime-400 hover:bg-lime-200">Оформить заказ</button>
             </div>
-            <div class="flex">
-                <span>Доставка:</span>
-                <div class="flex-1"></div>
-                <b>350 ₽</b>
+        </template>
+        <template v-else>
+            <div class="flex h-screen justify-center mt-52">
+                <div class="text-center">
+                    <p>К сожалению ваша корзина пуста</p>
+                    <img class="m-auto" src="/emoji-2.png">
+                    <p>Давайте скорее ее заполним!</p>
+                </div>
             </div>
-            <button class="rounded-xl w-full mt-2 p-3 bg-lime-400 hover:bg-lime-200">Оформить заказ</button>
-        </div>
+        </template>
     </div>
 </template>
 

@@ -3,7 +3,7 @@
         <div class="flex items-center">
             <img class="w-10 mr-5" src="/logo.png" alt="logo" />
             <div>
-                <h2 class="text-xl font-bold">XuyarketPlace</h2>
+                <h2 class="text-xl font-bold">MarketPlace</h2>
             </div>
         </div>
 
