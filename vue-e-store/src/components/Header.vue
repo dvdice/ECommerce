@@ -7,13 +7,21 @@
             </div>
         </div>
 
-        <header-link-element :header-link-elements="headerLinkElements" :total-items-in-cart="totalItemsInCart" @cart-clicked="cartClicked"></header-link-element>
+        <currency-select></currency-select>
+
+        <header-link-element
+            :header-link-elements
+            :total-items-in-cart
+            @cart-clicked="cartClicked"
+        ></header-link-element>
     </header>
 </template>
 
 <script setup lang="ts">
 
 import HeaderLinkElement from '@/components/HeaderLinkElement.vue'
+import CurrencySelect from '@/components/CurrencySelect.vue'
+import { useCurrencyStore } from '@/stores/CurrencyStore';
 
 defineProps({
     totalItemsInCart: {
@@ -24,7 +32,10 @@ defineProps({
 
 const emit = defineEmits(['cartClicked'])
 
+const currencyStore = useCurrencyStore();
+
 const headerLinkElements = [
+    {title: '', imgSrc: '/flag-usa.svg'},
     {title: 'Корзина', imgSrc: '/cart.svg'},
     {title: 'Закладки', imgSrc: '/heart.svg'},
     {title: 'Профиль', imgSrc: '/profile.svg'}
